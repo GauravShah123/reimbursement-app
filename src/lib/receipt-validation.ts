@@ -26,22 +26,19 @@ async function extractReceiptData(filePath: string): Promise<ReceiptData> {
   else if (ext === ".webp") mediaType = "image/webp";
 
   const response = await client.messages.create({
-    model: "claude-sonnet-4-6",
+    model: "claude-haiku-4-5",
     max_tokens: 1024,
     messages: [
       {
         role: "user",
         content: [
           {
-            type: "image",
-            source: {
-              type: "base64",
-              media_type: mediaType,
-              data: base64,
-            },
-          },
-          {
             type: "text",
+            // Stable instruction block placed before the dynamic image so the
+            // cache prefix covers it. Haiku 4.5 requires ≥4096 tokens to cache,
+            // so this no-ops today but costs nothing and activates automatically
+            // if the instruction grows or Anthropic lowers the threshold.
+            cache_control: { type: "ephemeral" },
             text: `Analyze this receipt image and extract the total amount charged.
 
 Respond with ONLY a JSON object in this exact format (no markdown, no explanation):
@@ -58,6 +55,14 @@ Rules:
 - If the receipt shows "CA$" or "CAD" or is clearly a Canadian receipt, use "CAD"
 - If you see "$" without a country indicator, use "USD" as default
 - confidence: high if total is clearly visible, medium if somewhat clear, low if unclear`,
+          },
+          {
+            type: "image",
+            source: {
+              type: "base64",
+              media_type: mediaType,
+              data: base64,
+            },
           },
         ],
       },
