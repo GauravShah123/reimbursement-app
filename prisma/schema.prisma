@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Submission {
+  id          String   @id @default(uuid())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Student info
+  studentName  String
+  studentId    String
+  email        String
+  program      String
+
+  // Payment info
+  paymentMethod  String  // "etransfer" | "cheque"
+  paymentDetails String  // e-transfer email or cheque payable to
+
+  // Expense details
+  expenseDescription String
+  expenseDate        String
+  claimedAmount      Float
+  currency           String  // "CAD" | "USD" | "EUR" | etc.
+
+  // Receipt info
+  receiptPaths     String  // JSON array of file paths
+  receiptTotal     Float?  // extracted from OCR
+  receiptCurrency  String? // extracted from OCR
+
+  // Validation
+  status           String  @default("pending")
+  // "pending" | "flagged" | "approved" | "sent_to_university"
+  flagReason       String?
+  validationNotes  String?
+
+  // Generated PDF path
+  universityFormPath String?
+}

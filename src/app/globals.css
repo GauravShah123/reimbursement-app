@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --blueprint-blue: #1a56db;
+  --blueprint-dark: #12305f;
+}
+
+body {
+  @apply bg-gray-50 text-gray-900;
+}
