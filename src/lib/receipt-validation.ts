@@ -26,7 +26,7 @@ async function extractReceiptData(filePath: string): Promise<ReceiptData> {
   else if (ext === ".webp") mediaType = "image/webp";
 
   const response = await client.messages.create({
-    model: "claude-haiku-4-5",
+    model: "claude-haiku-5-5",
     max_tokens: 1024,
     messages: [
       {
