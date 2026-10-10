@@ -52,6 +52,14 @@ button { font-family: inherit; cursor: pointer; }
   font-size: 13px; line-height: 1.4; text-align: center;
 }
 .preview-banner strong { font-weight: 600; }
+.preview-banner__link {
+  background: 0; border: 0; padding: 0; margin-left: 4px;
+  color: #fff; font: inherit; font-weight: 600;
+  text-decoration: underline; text-underline-offset: 2px;
+}
+.preview-banner__link:hover { text-decoration-thickness: 2px; }
+.app-host { flex: 1; display: flex; flex-direction: column; }
+.app-host[hidden] { display: none; }
 
 .app { flex: 1; }
 
