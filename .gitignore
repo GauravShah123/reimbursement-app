@@ -12,3 +12,6 @@ secrets/
 *.key
 *service-account*.json
 *.traineddata
+
+.vercel
+.env*
